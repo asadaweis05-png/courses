@@ -15,7 +15,7 @@ export default function NewCoursePage() {
   const [formData, setFormData] = useState({
     title: "", slug: "", description: "", short_desc: "",
     intro_video_id: "", thumbnail_url: "",
-    level: "beginner", language: "so", is_free: true, price: 0, category_id: ""
+    level: "beginner", language: "so", category_id: ""
   });
 
   useEffect(() => {
@@ -149,16 +149,6 @@ export default function NewCoursePage() {
                   {categories.map(c => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
                 </select>
               </div>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-                <input type="checkbox" name="is_free" checked={formData.is_free} onChange={handleChange} style={{ width: 18, height: 18, accentColor: "#00e5ff" }} />
-                <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-secondary)" }}>Free Course</span>
-              </label>
-              {!formData.is_free && (
-                <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Price ($)</label>
-                  <input type="number" name="price" value={formData.price} onChange={handleChange} className="glass-input" style={{ maxWidth: 160 }} />
-                </div>
-              )}
             </div>
           </div>
 

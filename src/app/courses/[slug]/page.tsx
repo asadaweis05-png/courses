@@ -64,8 +64,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             <EnrollButton
               courseId={course.id}
               courseSlug={course.slug}
-              isFree={course.is_free}
-              price={course.price}
               courseTitle={course.title}
             />
           </div>
@@ -111,7 +109,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   <div className="text-[10px] text-[var(--text-muted)] mt-0.5">{lesson.duration_minutes} min</div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  {lesson.is_free_preview && <span className="badge badge-green text-[9px]">Preview</span>}
                   <Play size={14} className="text-[var(--text-muted)]" />
                 </div>
               </div>

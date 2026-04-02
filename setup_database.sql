@@ -42,9 +42,6 @@ CREATE TABLE IF NOT EXISTS public.lp_courses (
     duration_hours NUMERIC(5,1) DEFAULT 0,
     total_lessons INTEGER DEFAULT 0,
     is_published BOOLEAN DEFAULT false,
-    is_free BOOLEAN DEFAULT true,
-    price NUMERIC(10,2) DEFAULT 0,
-    rating NUMERIC(2,1) DEFAULT 0,
     enrollment_count INTEGER DEFAULT 0,
     tags TEXT[],
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -135,27 +132,11 @@ CREATE TABLE IF NOT EXISTS public.lp_certificates (
     user_name TEXT NOT NULL,
     course_title TEXT NOT NULL,
     issued_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    is_verified BOOLEAN DEFAULT false,  -- true if paid for verified cert
-    payment_id UUID,
     pdf_url TEXT,
     UNIQUE(user_id, course_id)
 );
 
--- 11. Payments
-CREATE TABLE IF NOT EXISTS public.lp_payments (
-    id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    course_id UUID REFERENCES public.lp_courses(id) ON DELETE SET NULL,
-    stripe_session_id TEXT,
-    stripe_payment_intent TEXT,
-    amount NUMERIC(10,2) NOT NULL,
-    currency TEXT DEFAULT 'usd',
-    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'failed', 'refunded')),
-    payment_type TEXT DEFAULT 'certificate' CHECK (payment_type IN ('certificate', 'course')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
--- 12. Reviews
+-- 11. Reviews
 CREATE TABLE IF NOT EXISTS public.lp_reviews (
     id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -192,7 +173,6 @@ ALTER TABLE public.lp_quizzes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.lp_quiz_questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.lp_quiz_attempts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.lp_certificates ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.lp_payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.lp_reviews ENABLE ROW LEVEL SECURITY;
 
 -- Public read policies
@@ -211,15 +191,7 @@ CREATE POLICY "Public read reviews" ON public.lp_reviews FOR SELECT USING (true)
 CREATE POLICY "Users manage own enrollments" ON public.lp_enrollments FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users manage own progress" ON public.lp_progress FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users manage own quiz attempts" ON public.lp_quiz_attempts FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users view own payments" ON public.lp_payments FOR SELECT TO authenticated USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own reviews" ON public.lp_reviews FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
-
--- Admin full access (using service role key in API routes)
-CREATE POLICY "Admin full access courses" ON public.lp_courses FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin full access lessons" ON public.lp_lessons FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin full access quizzes" ON public.lp_quizzes FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Admin full access quiz questions" ON public.lp_quiz_questions FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin insert payments" ON public.lp_payments FOR INSERT TO authenticated WITH CHECK (true);
 CREATE POLICY "Admin insert certificates" ON public.lp_certificates FOR INSERT TO authenticated WITH CHECK (true);
 
 -- ============================================================

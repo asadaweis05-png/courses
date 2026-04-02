@@ -153,12 +153,6 @@ export default function EditCoursePage() {
             <div style={{ minWidth: 0 }}>
               <h1 style={{ fontSize: 16, fontWeight: 800, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{course.title}</h1>
               <div style={{ display: "flex", gap: 8, marginTop: 4, alignItems: "center" }}>
-                <span style={{
-                  fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20,
-                  ...(course.is_published
-                    ? { background: "rgba(16,185,129,0.12)", color: "#34d399" }
-                    : { background: "rgba(239,68,68,0.12)", color: "#f87171" })
-                }}>{course.is_published ? "LIVE" : "DRAFT"}</span>
                 <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{lessons.length} lessons</span>
               </div>
             </div>
@@ -301,34 +295,27 @@ export default function EditCoursePage() {
                       />
                     </div>
                   </div>
-                  <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", padding: "10px 0" }}>
-                    <input type="checkbox" checked={lesson.is_free_preview || false}
-                      onChange={(e) => { updateLocal(lesson.id, "is_free_preview", e.target.checked); saveField(lesson.id, "is_free_preview", e.target.checked); }}
-                      style={{ width: 16, height: 16, accentColor: "#10b981" }} />
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Free Preview</span>
-                  </label>
                 </div>
-              </div>
 
-              {/* Thumbnail */}
-              {lesson.video_id && (
-                <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 72, height: 40, borderRadius: 6, overflow: "hidden", background: "var(--bg-elevated)", flexShrink: 0 }}>
-                    <img src={`https://img.youtube.com/vi/${lesson.video_id}/default.jpg`} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                {/* Thumbnail */}
+                {lesson.video_id && (
+                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 72, height: 40, borderRadius: 6, overflow: "hidden", background: "var(--bg-elevated)", flexShrink: 0 }}>
+                      <img src={`https://img.youtube.com/vi/${lesson.video_id}/default.jpg`} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 10, color: "var(--text-muted)" }}>
+                        ID: <strong style={{ color: "var(--accent)" }}>{lesson.video_id}</strong>
+                      </p>
+                      <a href={`https://youtube.com/watch?v=${lesson.video_id}`} target="_blank" rel="noreferrer"
+                        style={{ fontSize: 11, color: "var(--accent)", textDecoration: "none" }}>
+                        ▶ Open on YouTube
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontSize: 10, color: "var(--text-muted)" }}>
-                      ID: <strong style={{ color: "var(--accent)" }}>{lesson.video_id}</strong>
-                    </p>
-                    <a href={`https://youtube.com/watch?v=${lesson.video_id}`} target="_blank" rel="noreferrer"
-                      style={{ fontSize: 11, color: "var(--accent)", textDecoration: "none" }}>
-                      ▶ Open on YouTube
-                    </a>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
 
           {lessons.length === 0 && (
             <div style={{ textAlign: "center", padding: "60px 20px", border: "2px dashed rgba(255,255,255,0.06)", borderRadius: 16 }}>

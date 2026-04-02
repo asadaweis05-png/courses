@@ -5,7 +5,7 @@ export interface Course {
   id: string; title: string; slug: string; description: string; short_desc: string;
   thumbnail_url: string; intro_video_id: string; category_id: string;
   instructor_id: string; language: string; level: string; duration_hours: number;
-  total_lessons: number; is_published: boolean; is_free: boolean; price: number;
+  total_lessons: number; is_published: boolean;
   rating: number; enrollment_count: number; tags: string[];
   created_at: string; updated_at: string;
   lp_categories?: Category; lp_instructors?: Instructor;
@@ -41,5 +41,5 @@ export interface QuizQuestion {
 export interface Certificate {
   id: string; verification_id: string; user_id: string; course_id: string;
   user_name: string; course_title: string; issued_at: string;
-  is_verified: boolean; pdf_url: string;
+  pdf_url: string;
 }

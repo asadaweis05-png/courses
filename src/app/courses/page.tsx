@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
-import { Search, BookOpen, Star, Play, ArrowRight } from "lucide-react";
+import { Search, BookOpen, Star, Play, ArrowRight, CheckCircle } from "lucide-react";
 
 export default function CoursesPage() {
   const supabase = createClient();
@@ -139,15 +139,9 @@ export default function CoursesPage() {
                   <div style={{ position: "absolute", top: 12, left: 12 }}>
                     <span className="badge" style={{ fontSize: 10 }}>
                       {(course.lp_categories as any)?.icon} {(course.lp_categories as any)?.name}
+                      <CheckCircle size={10} style={{ marginLeft: 4 }} /> {course.level}
                     </span>
                   </div>
-                  {course.is_free && (
-                    <div style={{
-                      position: "absolute", top: 12, right: 12,
-                      background: "rgba(16,185,129,0.2)", border: "1px solid rgba(16,185,129,0.3)",
-                      color: "#34d399", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20
-                    }}>FREE</div>
-                  )}
                 </div>
                 <div style={{ padding: 20 }}>
                   <h3 className="line-clamp-2" style={{ fontSize: 15, fontWeight: 700, lineHeight: 1.4, marginBottom: 8, color: "var(--text)" }}>
