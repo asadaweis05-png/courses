@@ -315,7 +315,8 @@ export default function EditCoursePage() {
                   </div>
                 )}
               </div>
-            ))}
+            </div>
+          ))}
 
           {lessons.length === 0 && (
             <div style={{ textAlign: "center", padding: "60px 20px", border: "2px dashed rgba(255,255,255,0.06)", borderRadius: 16 }}>

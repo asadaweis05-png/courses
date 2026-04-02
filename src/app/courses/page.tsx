@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
 import { Search, BookOpen, Star, Play, ArrowRight, CheckCircle } from "lucide-react";
 
-export default function CoursesPage() {
+function CoursesPageContent() {
   const supabase = createClient();
   const searchParams = useSearchParams();
   const [courses, setCourses] = useState<any[]>([]);
@@ -165,5 +165,18 @@ export default function CoursesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CoursesPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ paddingTop: 100, textAlign: "center", color: "var(--text-muted)" }}>
+        <div className="spinner" style={{ margin: "0 auto 16px" }} />
+        Loading Courses...
+      </div>
+    }>
+      <CoursesPageContent />
+    </Suspense>
   );
 }

@@ -64,7 +64,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             <EnrollButton
               courseId={course.id}
               courseSlug={course.slug}
-              courseTitle={course.title}
             />
           </div>
 
