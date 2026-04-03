@@ -7,7 +7,7 @@ export async function loginAction(email: string, password: string) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   
   if (error) {
-    const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const hasUrl = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL);
     return { error: `[DEBUG - hasUrl: ${hasUrl}] ${error.message}` };
   }
   
@@ -23,7 +23,7 @@ export async function signupAction(email: string, password: string, fullName: st
   });
 
   if (error) {
-    const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const hasUrl = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL);
     return { error: `[DEBUG - hasUrl: ${hasUrl}] ${error.message}` };
   }
 

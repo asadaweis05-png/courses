@@ -3,8 +3,8 @@ import { cookies } from 'next/headers'
 
 export async function createServerSupabase() {
   const cookieStore = await cookies()
-  let url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/^["']|["']$/g, "").trim();
-  let key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.replace(/^["']|["']$/g, "").trim();
+  let url = (process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL)?.replace(/^["']|["']$/g, "").trim();
+  let key = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY)?.replace(/^["']|["']$/g, "").trim();
   console.log("SERVER ACTION ENV DEBUG: URL is", url, "KEY length is", key?.length);
 
   if (!url || !key) {
