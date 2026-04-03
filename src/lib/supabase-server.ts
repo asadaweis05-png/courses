@@ -3,8 +3,9 @@ import { cookies } from 'next/headers'
 
 export async function createServerSupabase() {
   const cookieStore = await cookies()
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  let url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/^["']|["']$/g, "").trim();
+  let key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.replace(/^["']|["']$/g, "").trim();
+  console.log("SERVER ACTION ENV DEBUG: URL is", url, "KEY length is", key?.length);
 
   if (!url || !key) {
     console.warn("Server Supabase credentials missing! Prerendering may use placeholders.");

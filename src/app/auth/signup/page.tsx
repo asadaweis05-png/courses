@@ -30,6 +30,11 @@ export default function SignupPage() {
         setLoading(false); 
         return; 
       }
+      if (!result.session) {
+        setError("Success! Please check your email to verify your account before logging in.");
+        setLoading(false);
+        return;
+      }
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.");

@@ -18,7 +18,7 @@ export async function loginAction(email: string, password: string) {
 
 export async function signupAction(email: string, password: string, fullName: string) {
   const supabase = await createServerSupabase();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email, 
     password, 
     options: { data: { full_name: fullName } }
@@ -31,5 +31,5 @@ export async function signupAction(email: string, password: string, fullName: st
     return { error: error.message };
   }
 
-  return { success: true };
+  return { success: true, session: data.session };
 }
