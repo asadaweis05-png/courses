@@ -7,10 +7,8 @@ export async function loginAction(email: string, password: string) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   
   if (error) {
-    if (error.message?.includes("fetch")) {
-       return { error: "Network error: Server cannot reach Supabase API. Please check environment variables on Vercel." };
-    }
-    return { error: error.message };
+    const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
+    return { error: `[DEBUG - hasUrl: ${hasUrl}] ${error.message}` };
   }
   
   return { success: true };
@@ -25,10 +23,8 @@ export async function signupAction(email: string, password: string, fullName: st
   });
 
   if (error) {
-    if (error.message?.includes("fetch")) {
-       return { error: "Network error: Server cannot reach Supabase API. Please check environment variables on Vercel." };
-    }
-    return { error: error.message };
+    const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
+    return { error: `[DEBUG - hasUrl: ${hasUrl}] ${error.message}` };
   }
 
   return { success: true, session: data.session };
