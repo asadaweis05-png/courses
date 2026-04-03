@@ -22,12 +22,21 @@ export default function SignupPage() {
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setError(""); setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email, password,
-      options: { data: { full_name: fullName } }
-    });
-    if (error) { setError(error.message); setLoading(false); return; }
-    router.push("/dashboard");
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email, password,
+        options: { data: { full_name: fullName } }
+      });
+      if (error) { setError(error.message); setLoading(false); return; }
+      if (data) router.push("/dashboard");
+    } catch (err: any) {
+      if (err.message?.includes("fetch")) {
+        setError("Network error: Please check if Supabase environment variables are set correctly in Vercel.");
+      } else {
+        setError(err.message || "An unexpected error occurred.");
+      }
+      setLoading(false);
+    }
   }
 
   return (

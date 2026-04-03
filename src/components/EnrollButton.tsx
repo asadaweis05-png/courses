@@ -18,16 +18,26 @@ export function EnrollButton({
 
   async function handleEnroll() {
     setLoading(true);
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) { router.push("/auth/login"); return; }
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { router.push("/auth/login"); return; }
 
-    const { error } = await supabase.from("lp_enrollments").upsert({
-      user_id: session.user.id, course_id: courseId
-    }, { onConflict: "user_id,course_id" });
+      const { error } = await supabase.from("lp_enrollments").upsert({
+        user_id: session.user.id, course_id: courseId
+      }, { onConflict: "user_id,course_id" });
 
-    if (!error) {
-      setEnrolled(true);
-      setTimeout(() => router.push(`/courses/${courseSlug}/learn`), 600);
+      if (error) {
+        alert("Enrollment error: " + error.message);
+      } else {
+        setEnrolled(true);
+        setTimeout(() => router.push(`/courses/${courseSlug}/learn`), 600);
+      }
+    } catch (err: any) {
+      if (err.message?.includes("fetch")) {
+        alert("Network error: Please check if Supabase environment variables are set correctly in Vercel.");
+      } else {
+        alert("An unexpected error occurred: " + err.message);
+      }
     }
     setLoading(false);
   }
