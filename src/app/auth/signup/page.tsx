@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Sparkles, BookOpen, Users, Award } from "lucide-react";
+import { signupAction } from "../actions";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -23,18 +24,15 @@ export default function SignupPage() {
     e.preventDefault();
     setError(""); setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email, password,
-        options: { data: { full_name: fullName } }
-      });
-      if (error) { setError(error.message); setLoading(false); return; }
-      if (data) router.push("/dashboard");
-    } catch (err: any) {
-      if (err.message?.includes("fetch")) {
-        setError("Network error: Please check if Supabase environment variables are set correctly in Vercel.");
-      } else {
-        setError(err.message || "An unexpected error occurred.");
+      const result = await signupAction(email, password, fullName);
+      if (result?.error) { 
+        setError(result.error); 
+        setLoading(false); 
+        return; 
       }
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred.");
       setLoading(false);
     }
   }
