@@ -24,4 +24,4 @@ CREATE POLICY "Admin manage lessons" ON public.lp_lessons
 CREATE POLICY "Admin manage categories" ON public.lp_categories
   FOR ALL TO authenticated
   USING (auth.jwt() ->> 'email' = 'asadaweis05@gmail.com')
-  WITH CHECK (auth.jwt() ->> 'email' = 'asadaweids05@gmail.com');
+  WITH CHECK (auth.jwt() ->> 'email' = 'asadaweis05@gmail.com');
