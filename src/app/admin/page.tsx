@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
+import { isAdmin } from "@/lib/admin-config";
 import {
   Users, BookOpen, Plus, Edit, Trash2,
   ExternalLink, Shield, TrendingUp, Eye, EyeOff, LogOut
@@ -21,6 +22,11 @@ export default function AdminDashboard() {
   async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { window.location.href = "/auth/login"; return; }
+    if (!isAdmin(session.user.email)) {
+      alert("Access denied. Admin only.");
+      window.location.href = "/";
+      return;
+    }
     setUser(session.user);
     loadData();
   }

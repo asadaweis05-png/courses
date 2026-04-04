@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+import { isAdmin } from "@/lib/admin-config";
 import { extractYouTubeId } from "@/lib/youtube";
 import { ArrowLeft, Save, BookOpen, Image, Settings } from "lucide-react";
 import Link from "next/link";
@@ -19,6 +20,14 @@ export default function NewCoursePage() {
   });
 
   useEffect(() => {
+    // Admin gate
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session || !isAdmin(session.user.email)) {
+        alert("Access denied. Admin only.");
+        window.location.href = "/";
+        return;
+      }
+    });
     supabase.from("lp_categories").select("*").order("sort_order").then(({ data }) => setCategories(data || []));
   }, []);
 

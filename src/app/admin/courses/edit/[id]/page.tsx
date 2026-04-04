@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+import { isAdmin } from "@/lib/admin-config";
 import { extractYouTubeId } from "@/lib/youtube";
 import {
   ArrowLeft, Save, Loader2, Plus, Trash2,
@@ -23,7 +24,17 @@ export default function EditCoursePage() {
   const [videoUrls, setVideoUrls] = useState<Record<string, string>>({});
   const [introUrl, setIntroUrl] = useState("");
 
-  useEffect(() => { loadCourse(); }, [courseId]);
+  useEffect(() => {
+    // Admin gate
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session || !isAdmin(session.user.email)) {
+        alert("Access denied. Admin only.");
+        window.location.href = "/";
+        return;
+      }
+      loadCourse();
+    });
+  }, [courseId]);
 
   function showToast(msg: string, type: "ok" | "err" = "ok") {
     setToast({ msg, type });
