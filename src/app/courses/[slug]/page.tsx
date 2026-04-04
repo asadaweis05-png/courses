@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BookOpen, Clock, BarChart3, Globe, Star, Users, Play, CheckCircle, ArrowRight, Award } from "lucide-react";
 import { EnrollButton } from "@/components/EnrollButton";
+import { CourseVideo } from "@/components/CourseVideo";
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -21,7 +22,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   return (
     <div className="pt-16 min-h-screen">
       {/* ═══ HERO ═══ */}
-      <section className="relative py-20 px-5 overflow-hidden">
+      <section className="relative py-12 md:py-20 px-5 overflow-hidden">
         {/* Background blur from thumbnail */}
         {(course.thumbnail_url || course.intro_video_id) && (
           <div className="absolute inset-0 pointer-events-none">
@@ -31,19 +32,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           </div>
         )}
 
-        <div className="container-lg flex flex-col lg:flex-row gap-12 relative z-10">
+        <div className="container-lg flex flex-col lg:flex-row gap-8 md:gap-12 relative z-10">
           {/* Info */}
           <div className="flex-1 animate-up">
-            <div className="flex items-center gap-3 mb-5 flex-wrap">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 flex-wrap">
               <div className="badge">{(course.lp_categories as any)?.icon} {(course.lp_categories as any)?.name}</div>
               <span className="badge badge-purple capitalize">{course.level}</span>
               {course.is_free && <span className="badge badge-green">FREE</span>}
             </div>
-            <h1 className="heading-lg mb-5 leading-tight">{course.title}</h1>
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-8 max-w-2xl">{course.description}</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 md:mb-5 leading-[1.1]">{course.title}</h1>
+            <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-2xl">{course.description}</p>
 
             {/* Meta Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3 mb-6 md:mb-8">
               {[
                 { icon: BookOpen, label: `${course.total_lessons} Lessons`, color: "stat-icon-cyan" },
                 { icon: Clock, label: `${course.duration_hours}h Duration`, color: "stat-icon-purple" },
@@ -52,11 +53,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 { icon: BarChart3, label: course.level, color: "stat-icon-cyan" },
                 ...(course.rating > 0 ? [{ icon: Star, label: `${course.rating} (${reviewCount} reviews)`, color: "stat-icon-amber" }] : []),
               ].map((m, i) => (
-                <div key={i} className="glass-card-static p-3 flex items-center gap-3">
+                <div key={i} className="glass-card-static p-2.5 md:p-3 flex items-center gap-2 md:gap-3">
                   <div className={`stat-icon ${m.color}`} style={{ width: 36, height: 36, borderRadius: 10 }}>
                     <m.icon size={16} />
                   </div>
-                  <span className="text-xs text-[var(--text-secondary)] font-medium capitalize">{m.label}</span>
+                  <span className="text-[10px] md:text-xs text-[var(--text-secondary)] font-medium capitalize">{m.label}</span>
                 </div>
               ))}
             </div>
@@ -68,20 +69,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           </div>
 
           {/* Thumbnail / Video */}
-          <div className="lg:w-[440px] flex-shrink-0 animate-up delay-2">
-            <div className="glass-card overflow-hidden animate-glow" style={{ cursor: "default" }}>
-              <div className="relative aspect-video bg-[var(--bg-elevated)]">
-                <img src={course.thumbnail_url || `https://img.youtube.com/vi/${course.intro_video_id}/hqdefault.jpg`}
-                  alt={course.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110"
-                    style={{ background: "var(--gradient-1)", boxShadow: "0 0 40px rgba(0,229,255,0.3)" }}>
-                    <Play size={28} fill="#000" className="text-black ml-1" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CourseVideo 
+            thumbnailUrl={course.thumbnail_url} 
+            introVideoId={course.intro_video_id} 
+            title={course.title} 
+          />
         </div>
       </section>
 

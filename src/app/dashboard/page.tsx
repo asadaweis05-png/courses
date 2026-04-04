@@ -52,40 +52,40 @@ export default function DashboardPage() {
       <div className="absolute top-0 left-0 right-0 h-[45vh] bg-gradient-to-b from-[rgba(124,58,237,0.15)] via-[rgba(0,229,255,0.05)] to-transparent -z-10 pointer-events-none" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[rgba(0,229,255,0.06)] blur-[120px] rounded-full pointer-events-none -z-10 translate-x-1/3 -translate-y-1/3" />
       
-      <div className="pt-32 px-5 container-lg z-10 relative">
+      <div className="pt-24 md:pt-32 px-5 container-lg z-10 relative">
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20 animate-up">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 md:gap-8 mb-12 md:mb-16 animate-up">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6 text-xs font-bold tracking-widest uppercase text-[var(--accent)] shadow-[0_0_20px_rgba(0,229,255,0.1)]">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] mb-4 md:mb-6 text-[10px] md:text-xs font-bold tracking-widest uppercase text-[var(--accent)] shadow-[0_0_20px_rgba(0,229,255,0.1)]">
               <Sparkles size={14} /> {greeting}
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[1.1] mb-2">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-[1.1] mb-2">
               Welcome back,<br />
               <span className="gradient-text">{firstName}</span>
             </h1>
           </div>
           
           {/* Floating Stats Dock */}
-          <div className="flex items-center gap-6 glass px-8 py-5 rounded-3xl border-white/[0.08] shadow-2xl relative overflow-hidden">
+          <div className="flex items-center gap-4 md:gap-6 glass px-6 md:px-8 py-4 md:py-5 rounded-2xl md:rounded-3xl border-white/[0.08] shadow-2xl relative overflow-hidden w-full lg:w-auto justify-between md:justify-start">
             <div className="absolute inset-0 bg-[var(--gradient-1)] opacity-[0.04]" />
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Courses</span>
-              <span className="text-3xl font-black text-white flex items-center gap-2">
-                <BookOpen size={20} className="text-[var(--accent)]"/> {enrollments.length}
+            <div className="flex flex-col items-center flex-1 md:flex-none">
+              <span className="text-[9px] md:text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Courses</span>
+              <span className="text-2xl md:text-3xl font-black text-white flex items-center gap-2">
+                <BookOpen size={18} className="text-[var(--accent)]"/> {enrollments.length}
               </span>
             </div>
-            <div className="w-px h-12 bg-white/10" />
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Hours</span>
-              <span className="text-3xl font-black text-white flex items-center gap-2">
-                <Clock size={20} className="text-[#a78bfa]"/> {enrollments.reduce((s, e) => s + (e.lp_courses?.duration_hours || 0), 0)}
+            <div className="w-px h-10 md:h-12 bg-white/10" />
+            <div className="flex flex-col items-center flex-1 md:flex-none">
+              <span className="text-[9px] md:text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Hours</span>
+              <span className="text-2xl md:text-3xl font-black text-white flex items-center gap-2">
+                <Clock size={18} className="text-[#a78bfa]"/> {enrollments.reduce((s, e) => s + (e.lp_courses?.duration_hours || 0), 0)}
               </span>
             </div>
-            <div className="w-px h-12 bg-white/10" />
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Won</span>
-              <span className="text-3xl font-black text-white flex items-center gap-2">
-                <Trophy size={20} className="text-emerald-400"/> {completed.length}
+            <div className="w-px h-10 md:h-12 bg-white/10" />
+            <div className="flex flex-col items-center flex-1 md:flex-none">
+              <span className="text-[9px] md:text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Won</span>
+              <span className="text-2xl md:text-3xl font-black text-white flex items-center gap-2">
+                <Trophy size={18} className="text-emerald-400"/> {completed.length}
               </span>
             </div>
           </div>

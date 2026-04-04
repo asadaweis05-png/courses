@@ -77,29 +77,29 @@ export default function LearnPage() {
   return (
     <div className="pt-16 flex h-[calc(100vh-64px)]">
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? "w-80" : "w-0"} bg-[#0d1220] border-r border-white/[0.07] flex-shrink-0 overflow-hidden transition-all duration-200 flex flex-col`}>
-        <div className="p-5 border-b border-white/[0.07]">
-          <h2 className="text-sm font-bold text-white truncate">{course.title}</h2>
+      <div className={`${sidebarOpen ? "w-72 md:w-80" : "w-0"} bg-[#0d1220] border-r border-white/[0.07] flex-shrink-0 overflow-hidden transition-all duration-200 flex flex-col`}>
+        <div className="p-4 md:p-5 border-b border-white/[0.07]">
+          <h2 className="text-xs md:text-sm font-bold text-white truncate">{course.title}</h2>
           <div className="mt-3">
             <div className="flex justify-between text-[10px] text-[#64748b] mb-1.5">
               <span>{completedCount}/{lessons.length} lessons</span>
               <span className="text-[#00e5ff] font-bold">{pct}%</span>
             </div>
-            <div className="progress-track"><div className="progress-fill" style={{ width: `${pct}%` }}/></div>
+            <div className="progress-track !h-1.5"><div className="progress-fill" style={{ width: `${pct}%` }}/></div>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
           {lessons.map((l, i) => (
             <button key={l.id} onClick={() => setCurrentLesson(l)}
-              className={`w-full text-left px-5 py-3.5 flex items-center gap-3 border-b border-white/[0.04] transition-colors ${
+              className={`w-full text-left px-4 md:px-5 py-3 md:py-3.5 flex items-center gap-3 border-b border-white/[0.04] transition-colors ${
                 currentLesson?.id === l.id ? "bg-[#00e5ff]/[0.08]" : "hover:bg-white/[0.02]"
               }`}>
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold ${
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold ${
                 progress[l.id] ? "bg-[#10b981] text-white" : currentLesson?.id === l.id ? "bg-[#00e5ff] text-black" : "bg-white/[0.06] text-[#64748b]"
               }`}>
-                {progress[l.id] ? <CheckCircle size={12}/> : i + 1}
+                {progress[l.id] ? <CheckCircle size={10}/> : i + 1}
               </div>
-              <span className={`text-xs truncate ${currentLesson?.id === l.id ? "text-white font-semibold" : "text-[#94a3b8]"}`}>{l.title}</span>
+              <span className={`text-[11px] md:text-xs truncate ${currentLesson?.id === l.id ? "text-white font-bold" : "text-[#94a3b8]"}`}>{l.title}</span>
             </button>
           ))}
         </div>
@@ -122,19 +122,19 @@ export default function LearnPage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 border-t border-white/[0.07] flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-bold">{currentLesson.title}</h3>
-                <p className="text-xs text-[#64748b] mt-1">{currentLesson.duration_minutes} min · Lesson {lessons.indexOf(currentLesson) + 1} of {lessons.length}</p>
+            <div className="p-4 md:p-6 border-t border-white/[0.07] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="max-w-full overflow-hidden">
+                <h3 className="text-sm md:text-base font-bold truncate">{currentLesson.title}</h3>
+                <p className="text-[10px] md:text-xs text-[#64748b] mt-1">{currentLesson.duration_minutes} min · Lesson {lessons.indexOf(currentLesson) + 1} of {lessons.length}</p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 md:gap-3 w-full sm:w-auto">
                 {!progress[currentLesson.id] && (
-                  <button onClick={() => markComplete(currentLesson.id)} className="btn-accent text-xs !py-2 !px-4">
+                  <button onClick={() => markComplete(currentLesson.id)} className="btn-accent text-[10px] md:text-xs !py-2 !px-3 md:!px-4 flex-1 sm:flex-none">
                     <CheckCircle size={14}/> Mark Complete
                   </button>
                 )}
                 {lessons.indexOf(currentLesson) < lessons.length - 1 && (
-                  <button onClick={() => setCurrentLesson(lessons[lessons.indexOf(currentLesson) + 1])} className="btn-outline text-xs !py-2 !px-4">
+                  <button onClick={() => setCurrentLesson(lessons[lessons.indexOf(currentLesson) + 1])} className="btn-outline text-[10px] md:text-xs !py-2 !px-3 md:!px-4 flex-1 sm:flex-none">
                     Next <ChevronRight size={14}/>
                   </button>
                 )}
