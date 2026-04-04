@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookOpen, Clock, BarChart3, Globe, Star, Users, Play, CheckCircle, ArrowRight, Award } from "lucide-react";
 import { EnrollButton } from "@/components/EnrollButton";
 import { CourseVideo } from "@/components/CourseVideo";
+import { AdUnit } from "@/components/AdUnit";
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -132,6 +133,13 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           </div>
         </section>
       )}
+
+      {/* ═══ AD UNIT ═══ */}
+      <section className="py-8 px-5">
+        <div className="container-md">
+          <AdUnit slot="course_details_bottom" />
+        </div>
+      </section>
     </div>
   );
 }

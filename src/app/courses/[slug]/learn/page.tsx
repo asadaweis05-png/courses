@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
 import { useParams } from "next/navigation";
 import { CheckCircle, Play, ChevronRight, Sparkles, X, Send, Bot, Menu, Clock } from "lucide-react";
+import { AdUnit } from "@/components/AdUnit";
 
 export default function LearnPage() {
   const supabase = createClient();
@@ -180,9 +181,10 @@ export default function LearnPage() {
               </div>
 
               <div className="max-w-4xl">
-                 <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                 <p className="text-sm md:text-base text-gray-400 leading-relaxed mb-6">
                    {currentLesson.description || "No description available for this lesson."}
                  </p>
+                 <AdUnit slot="course_learn_lesson_bottom" style={{ margin: "2rem 0" }} />
               </div>
             </div>
           </div>

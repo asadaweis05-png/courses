@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase-server";
 import { BookOpen, Users, Award, ArrowRight, Play, Star, Globe, Sparkles, Zap } from "lucide-react";
+import { AdUnit } from "@/components/AdUnit";
 
 export default async function HomePage() {
   const supabase = await createServerSupabase();
@@ -146,6 +147,11 @@ export default async function HomePage() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* ════════════════════════ AD UNIT ════════════════════════ */}
+      <section className="container-lg py-4">
+        <AdUnit slot="home_between_sections" />
       </section>
 
       {/* ════════════════════════ WHY US ════════════════════════ */}

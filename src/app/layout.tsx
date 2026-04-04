@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import Script from "next/script";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300","400","500","600","700","800"], variable: "--font-outfit" });
 const inter = Inter({ subsets: ["latin"], weight: ["400","500","600","700"], variable: "--font-inter" });
@@ -26,6 +27,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mesh-bg" />
         <div className="grid-pattern" />
         <Navbar />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8203084339795682"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <main>{children}</main>
       </body>
     </html>
