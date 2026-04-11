@@ -56,7 +56,7 @@ export const MUSIC_PRESETS: MusicPreset[] = [
     name: 'Iris - Goo Goo Dolls',
     nameSo: 'Iris (Aaway Jacaylkii)',
     icon: '✨',
-    url: 'https://archive.org/download/GooGooDollsIris/Goo%20Goo%20Dolls%20-%20Iris.mp3',
+    url: 'https://ia801309.us.archive.org/28/items/GooGooDollsIris/Goo%20Goo%20Dolls%20-%20Iris.mp3',
     isPremium: true,
   },
   {

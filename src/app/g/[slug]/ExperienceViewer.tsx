@@ -25,25 +25,50 @@ interface ExperienceViewerProps {
   };
 }
 
+type Phase = "ready" | "intro" | "message" | "images" | "complete";
+
 export function ExperienceViewer({ page }: ExperienceViewerProps) {
   const themeKey = page.theme || "midnight";
   const theme = THEME_STYLES[themeKey] || THEME_STYLES.midnight;
 
-  const [phase, setPhase] = useState<"intro" | "message" | "images" | "complete">("intro");
+  const [phase, setPhase] = useState<Phase>("ready");
   const [displayedText, setDisplayedText] = useState("");
   const [muted, setMuted] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [showParticles, setShowParticles] = useState(true);
+  const [audioError, setAudioError] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const textIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Phase flow
+  // Initialize audio object once
   useEffect(() => {
-    // Intro phase: 2s
-    const introTimeout = setTimeout(() => setPhase("message"), 2000);
-    return () => clearTimeout(introTimeout);
-  }, []);
+    if (page.music_url) {
+      const audio = new Audio(page.music_url);
+      audio.loop = true;
+      audio.volume = 0.5;
+      audio.onerror = () => setAudioError(true);
+      audioRef.current = audio;
+    }
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, [page.music_url]);
+
+  function startExperience() {
+    setPhase("intro");
+    if (audioRef.current && !audioError) {
+      audioRef.current.play().then(() => {
+        setMuted(false);
+      }).catch((err) => {
+        console.warn("Autoplay still blocked or link failed:", err);
+      });
+    }
+    
+    // Auto-advance from intro to message after 2s
+    setTimeout(() => setPhase("message"), 2000);
+  }
 
   // Typing effect
   useEffect(() => {
@@ -85,19 +110,14 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
     return () => clearInterval(timer);
   }, [phase, page.images]);
 
-  // Audio
+  // Audio toggle (for manual use later)
   function toggleAudio() {
-    if (!page.music_url) return;
+    if (!audioRef.current) return;
     if (muted) {
-      if (!audioRef.current) {
-        audioRef.current = new Audio(page.music_url);
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.4;
-      }
       audioRef.current.play().catch(() => {});
       setMuted(false);
     } else {
-      audioRef.current?.pause();
+      audioRef.current.pause();
       setMuted(true);
     }
   }
@@ -168,6 +188,47 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
           }}>
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
+      )}
+
+      {/* READY PHASE / SPLASH */}
+      {phase === "ready" && (
+        <div style={{
+          zIndex: 100, textAlign: "center", animation: "qrFadeIn 1s ease forwards",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 32
+        }}>
+          <div style={{
+            fontSize: 84, animation: "qrPulse 2s infinite"
+          }}>
+            {CATEGORY_ICONS[page.category] || "💌"}
+          </div>
+          
+          <h2 style={{ 
+            fontSize: "clamp(1.5rem, 5vw, 2.2rem)", fontWeight: 800, color: "white",
+            letterSpacing: "-0.02em", textShadow: `0 0 30px ${theme.accent}40`
+          }}>
+            Kani waa fariin kuuaradsan...
+          </h2>
+
+          <button onClick={startExperience} className="qr-start-btn" style={{
+            padding: "18px 48px", borderRadius: 40,
+            background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+            color: "#000", fontWeight: 800, fontSize: 18,
+            border: "none", cursor: "pointer",
+            boxShadow: `0 10px 40px ${theme.accent}60`,
+            transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            display: "flex", alignItems: "center", gap: 12
+          }}>
+            <Heart size={22} fill="currentColor" />
+              FURI FARIINTA
+          </button>
+          
+          {page.music_url && (
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontWeight: 500 }}>
+              <Zap size={12} style={{ display: "inline", marginRight: 4 }} />
+              Muusig ayaa la socda
+            </div>
+          )}
+        </div>
       )}
 
       {/* INTRO PHASE */}
