@@ -51,4 +51,20 @@ export const MUSIC_PRESETS: MusicPreset[] = [
     url: 'https://cdn.pixabay.com/audio/2024/08/02/audio_dc39af6189.mp3',
     isPremium: true,
   },
+  {
+    id: 'iris',
+    name: 'Iris - Goo Goo Dolls',
+    nameSo: 'Iris (Aaway Jacaylkii)',
+    icon: '✨',
+    url: 'https://archive.org/download/GooGooDollsIris/Goo%20Goo%20Dolls%20-%20Iris.mp3',
+    isPremium: true,
+  },
+  {
+    id: 'everything',
+    name: 'Everything - Michael Bublé',
+    nameSo: 'Everything (Adaa Wax Waal)',
+    icon: '💖',
+    url: 'https://archive.org/download/MichaelBubleEverything/Michael%20Buble%20-%20Everything.mp3',
+    isPremium: true,
+  },
 ];
