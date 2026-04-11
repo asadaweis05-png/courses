@@ -43,49 +43,73 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const textIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Initialize audio object once
-  useEffect(() => {
-    if (page.music_url) {
-      const audio = new Audio(page.music_url);
-      audio.loop = true;
-      audio.volume = 0.5;
-      
-      const onLoadedMetadata = () => {
-        // Apply starting offset if defined in presets
+  // Total Overhaul: Initialize audio ONLY on user interaction for maximum compatibility
+  function startExperience() {
+    setPhase("intro");
+    
+    if (page.music_url && !audioRef.current) {
+      try {
+        const audio = new Audio(page.music_url);
+        audio.loop = true;
+        audio.volume = 0.5;
+        
+        // Find preset for startTime
         const preset = MUSIC_PRESETS.find(m => m.url === page.music_url);
+        
+        // Set start time immediately if possible
         if (preset?.startTime) {
           audio.currentTime = preset.startTime;
         }
-      };
 
-      audio.addEventListener("loadedmetadata", onLoadedMetadata);
-      audio.onerror = () => setAudioError(true);
-      audioRef.current = audio;
+        // Error handling
+        audio.onerror = (e) => {
+          console.error("Audio Load Error:", e);
+          setAudioError(true);
+        };
 
-      return () => {
-        audio.removeEventListener("loadedmetadata", onLoadedMetadata);
-        audio.pause();
-      };
-    }
-    return () => {
-      audioRef.current?.pause();
-      audioRef.current = null;
-    };
-  }, [page.music_url]);
+        // Standard interaction-based play
+        audio.play().then(() => {
+          setMuted(false);
+          // Set start time after playing starts to ensure it sticks in all browsers
+          if (preset?.startTime) {
+            audio.currentTime = preset.startTime;
+          }
+        }).catch((err) => {
+          console.error("Audio Play Error:", err);
+          // Fallback: try playing again if first attempt blocked
+          setTimeout(() => {
+            audio.play().then(() => {
+              if (preset?.startTime) audio.currentTime = preset.startTime;
+            }).catch(() => setAudioError(true));
+          }, 100);
+        });
 
-  function startExperience() {
-    setPhase("intro");
-    if (audioRef.current && !audioError) {
+        audioRef.current = audio;
+      } catch (err) {
+        console.error("Audio Init Error:", err);
+        setAudioError(true);
+      }
+    } else if (audioRef.current) {
+      // If already exists but not playing
       audioRef.current.play().then(() => {
-        setMuted(false);
-      }).catch((err) => {
-        console.warn("Autoplay still blocked or link failed:", err);
-      });
+        const preset = MUSIC_PRESETS.find(m => m.url === page.music_url);
+        if (preset?.startTime) audioRef.current!.currentTime = preset.startTime;
+      }).catch(() => setAudioError(true));
     }
     
     // Auto-advance from intro to message after 2s
     setTimeout(() => setPhase("message"), 2000);
   }
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   // Typing effect
   useEffect(() => {
