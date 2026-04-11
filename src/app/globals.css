@@ -400,3 +400,78 @@ textarea.glass-input { resize: none; min-height: 100px; }
   to { opacity: 1; transform: translateY(0); }
 }
 .slide-down { animation: slideDown 0.25s ease both; }
+
+/* ============================================================
+   QR GREETINGS — EXPERIENCE VIEWER STYLES
+   ============================================================ */
+
+/* Floating particles */
+@keyframes qrParticleRise {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.2; }
+  100% { transform: translateY(-100vh) translateX(30px) scale(0); opacity: 0; }
+}
+.qr-particle {
+  animation: qrParticleRise 5s ease-in-out infinite;
+}
+
+/* Typing cursor blink */
+@keyframes qrBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.qr-cursor { animation: qrBlink 0.8s step-end infinite; }
+
+/* Ken Burns image zoom */
+@keyframes qrKenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.15) translate(-2%, -2%); }
+}
+
+/* Intro pulse */
+@keyframes qrPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* General fade in */
+@keyframes qrFadeIn {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Intro animation */
+.qr-intro-anim {
+  animation: qrFadeIn 0.8s ease forwards;
+}
+
+/* Spin for loader */
+.qr-spin { animation: spin 1s linear infinite; }
+
+/* Hero glow for landing page */
+.qr-hero-glow {
+  position: absolute;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(236,72,153,0.12), rgba(244,63,94,0.06), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Category card hover */
+.qr-category-card:hover .qr-cat-icon-wrap {
+  transform: scale(1.1) translateY(-4px);
+}
+.qr-category-card:hover .qr-cat-arrow {
+  opacity: 1 !important;
+  transform: translateX(4px);
+}
+
+/* Experience page - hide navbar */
+.qr-experience ~ nav,
+.qr-experience ~ .mesh-bg,
+.qr-experience ~ .grid-pattern {
+  display: none !important;
+}
+

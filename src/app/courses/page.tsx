@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
 import { Search, BookOpen, Star, Play, ArrowRight, CheckCircle } from "lucide-react";
+import { AdUnit } from "@/components/AdUnit";
 
 function CoursesPageContent() {
   const supabase = createClient();
@@ -99,7 +100,10 @@ function CoursesPageContent() {
           </select>
         </div>
 
-        {/* Results count */}
+        {/* Ad Placement */}
+        <AdUnit slot="courses_list_top" style={{ marginBottom: 32 }} />
+
+        {/* Results count status */}
         <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 24, fontWeight: 500 }}>
           Showing <span className="gradient-text" style={{ fontWeight: 700 }}>{filtered.length}</span> courses
         </div>

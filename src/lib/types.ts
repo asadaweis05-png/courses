@@ -43,3 +43,18 @@ export interface Certificate {
   user_name: string; course_title: string; issued_at: string;
   pdf_url: string;
 }
+
+export interface QrPage {
+  id: string; user_id: string; slug: string;
+  category: string; message: string;
+  sender_name: string | null; recipient_name: string | null;
+  music_url: string | null; images: string[];
+  theme: string; is_premium: boolean; is_private: boolean;
+  view_count: number;
+  created_at: string; updated_at: string;
+}
+
+export interface QrPageView {
+  id: string; page_id: string; viewed_at: string;
+  referrer: string | null; user_agent: string | null;
+}

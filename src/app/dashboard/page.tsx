@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
-import { BookOpen, ArrowRight, Clock, Trophy, Play, Award, Sparkles, TrendingUp, Compass, CheckCircle2, Circle } from "lucide-react";
+import { BookOpen, ArrowRight, Clock, Trophy, Play, Award, Sparkles, TrendingUp, Compass, CheckCircle2, Circle, Heart, QrCode } from "lucide-react";
 
 export default function DashboardPage() {
   const supabase = createClient();
@@ -89,6 +89,28 @@ export default function DashboardPage() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* QR Greetings Card */}
+        <div className="mb-12 animate-up delay-1">
+          <Link href="/greetings" className="group block glass-card p-6 rounded-3xl hover:border-[rgba(236,72,153,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.1)] transition-all duration-300" style={{ textDecoration: 'none', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.15), rgba(244,63,94,0.15))', border: '1px solid rgba(236,72,153,0.25)' }}>
+                <Heart size={24} style={{ color: '#ec4899' }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[#ec4899] transition-colors">QR Salaan</h3>
+                <p className="text-xs text-[var(--text-muted)] line-clamp-1">Samee fariimo dareen leh oo ku wadaag QR code</p>
+              </div>
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+                  <QrCode size={14} className="text-[#ec4899]" />
+                  <span className="text-xs font-semibold text-[var(--text-secondary)]">Greetings Tool</span>
+                </div>
+                <ArrowRight size={18} className="text-[var(--text-muted)] group-hover:text-[#ec4899] group-hover:translate-x-1 transition-all" />
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Empty State */}

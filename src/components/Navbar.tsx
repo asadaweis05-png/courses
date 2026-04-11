@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
 import { isAdmin } from "@/lib/admin-config";
-import { Menu, X, BookOpen, GraduationCap, LayoutDashboard, LogOut, LogIn, ChevronDown, User, Shield } from "lucide-react";
+import { Menu, X, BookOpen, GraduationCap, LayoutDashboard, LogOut, LogIn, ChevronDown, User, Shield, Heart } from "lucide-react";
 
 export function Navbar() {
   const [user, setUser] = useState<any>(null);
@@ -28,6 +28,7 @@ export function Navbar() {
   const links = [
     { href: "/", label: "Home", icon: BookOpen },
     { href: "/courses", label: "Courses", icon: GraduationCap },
+    { href: "/greetings", label: "QR Salaan", icon: Heart },
     ...(user ? [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }] : []),
     ...(user && isAdmin(user.email) ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
   ];
