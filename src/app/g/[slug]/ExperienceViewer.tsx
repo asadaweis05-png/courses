@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Volume2, VolumeX, Heart, Sparkles, ArrowRight, Zap } from "lucide-react";
+import { MUSIC_PRESETS } from "@/lib/qr-music";
 
 const THEME_STYLES: Record<string, { bg: string; accent: string; accent2: string; glow: string; particleColor: string; gradientOverlay: string }> = {
   midnight: { bg: "#050816", accent: "#00e5ff", accent2: "#7c3aed", glow: "rgba(0,229,255,0.15)", particleColor: "#00e5ff", gradientOverlay: "linear-gradient(135deg, rgba(0,229,255,0.05), rgba(124,58,237,0.05))" },
@@ -48,6 +49,13 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
       const audio = new Audio(page.music_url);
       audio.loop = true;
       audio.volume = 0.5;
+      
+      // Apply starting offset if defined in presets
+      const preset = MUSIC_PRESETS.find(m => m.url === page.music_url);
+      if (preset?.startTime) {
+        audio.currentTime = preset.startTime;
+      }
+
       audio.onerror = () => setAudioError(true);
       audioRef.current = audio;
     }

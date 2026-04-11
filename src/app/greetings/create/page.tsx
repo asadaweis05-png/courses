@@ -31,7 +31,7 @@ function CreateWizardInner() {
   const [message, setMessage] = useState("");
   const [senderName, setSenderName] = useState("");
   const [recipientName, setRecipientName] = useState("");
-  const [musicUrl, setMusicUrl] = useState("");
+  const [musicUrl, setMusicUrl] = useState("https://ia801309.us.archive.org/28/items/GooGooDollsIris/Goo%20Goo%20Dolls%20-%20Iris.mp3");
   const [images, setImages] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState("");
   const [theme, setTheme] = useState("midnight");
