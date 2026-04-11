@@ -50,14 +50,22 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
       audio.loop = true;
       audio.volume = 0.5;
       
-      // Apply starting offset if defined in presets
-      const preset = MUSIC_PRESETS.find(m => m.url === page.music_url);
-      if (preset?.startTime) {
-        audio.currentTime = preset.startTime;
-      }
+      const onLoadedMetadata = () => {
+        // Apply starting offset if defined in presets
+        const preset = MUSIC_PRESETS.find(m => m.url === page.music_url);
+        if (preset?.startTime) {
+          audio.currentTime = preset.startTime;
+        }
+      };
 
+      audio.addEventListener("loadedmetadata", onLoadedMetadata);
       audio.onerror = () => setAudioError(true);
       audioRef.current = audio;
+
+      return () => {
+        audio.removeEventListener("loadedmetadata", onLoadedMetadata);
+        audio.pause();
+      };
     }
     return () => {
       audioRef.current?.pause();

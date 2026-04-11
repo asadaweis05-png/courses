@@ -125,9 +125,19 @@ function CreateWizardInner() {
       return;
     }
     if (url) {
-      audioRef.current = new Audio(url);
-      audioRef.current.volume = 0.3;
-      audioRef.current.play().catch(() => {});
+      const audio = new Audio(url);
+      audio.volume = 0.3;
+      
+      const onLoadedMetadata = () => {
+        const preset = MUSIC_PRESETS.find(m => m.url === url);
+        if (preset?.startTime) {
+          audio.currentTime = preset.startTime;
+        }
+      };
+
+      audio.addEventListener("loadedmetadata", onLoadedMetadata);
+      audio.play().catch(() => {});
+      audioRef.current = audio;
       setAudioPlaying(true);
     }
   }

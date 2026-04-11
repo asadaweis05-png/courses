@@ -57,7 +57,7 @@ export const MUSIC_PRESETS: MusicPreset[] = [
     name: 'Iris - Goo Goo Dolls',
     nameSo: 'Iris (Aaway Jacaylkii)',
     icon: '✨',
-    url: 'https://ia801309.us.archive.org/28/items/GooGooDollsIris/Goo%20Goo%20Dolls%20-%20Iris.mp3',
+    url: 'https://files.catbox.moe/0v2xax.mp3',
     isPremium: false,
     startTime: 163, // Starts at "When everything feels like the movies..."
   },
