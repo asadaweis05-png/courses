@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Volume2, VolumeX, Heart, Sparkles, ArrowRight } from "lucide-react";
+import { Volume2, VolumeX, Heart, Sparkles, ArrowRight, Zap } from "lucide-react";
 
 const THEME_STYLES: Record<string, { bg: string; accent: string; accent2: string; glow: string; particleColor: string; gradientOverlay: string }> = {
   midnight: { bg: "#050816", accent: "#00e5ff", accent2: "#7c3aed", glow: "rgba(0,229,255,0.15)", particleColor: "#00e5ff", gradientOverlay: "linear-gradient(135deg, rgba(0,229,255,0.05), rgba(124,58,237,0.05))" },
