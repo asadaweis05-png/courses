@@ -36,6 +36,7 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
   const [muted, setMuted] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [showParticles, setShowParticles] = useState(true);
+  const [particles, setParticles] = useState<any[]>([]);
   const [audioError, setAudioError] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -122,14 +123,17 @@ export function ExperienceViewer({ page }: ExperienceViewerProps) {
     }
   }
 
-  // Generate particles
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 5,
-    duration: 3 + Math.random() * 4,
-    size: 2 + Math.random() * 4,
-  }));
+  // Generate particles only on the client
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 3 + Math.random() * 4,
+      size: 2 + Math.random() * 4,
+    }));
+    setParticles(generatedParticles);
+  }, []);
 
   return (
     <div className="qr-experience" style={{
